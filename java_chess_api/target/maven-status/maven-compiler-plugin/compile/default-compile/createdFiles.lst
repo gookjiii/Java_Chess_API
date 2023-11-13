@@ -1,0 +1,12 @@
+com/gookjiii/chessapi/Main.class
+com/gookjiii/chessapi/Spot.class
+com/gookjiii/chessapi/Coordinate.class
+com/gookjiii/chessapi/entities/King.class
+com/gookjiii/chessapi/entities/ChessPiece.class
+com/gookjiii/chessapi/entities/Pawn.class
+com/gookjiii/chessapi/entities/Knight.class
+com/gookjiii/chessapi/entities/Queen.class
+com/gookjiii/chessapi/Board.class
+com/gookjiii/chessapi/entities/Rook.class
+com/gookjiii/chessapi/entities/Bishop.class
+com/gookjiii/chessapi/Move.class
