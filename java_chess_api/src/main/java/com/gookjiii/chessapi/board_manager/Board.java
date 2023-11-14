@@ -5,7 +5,9 @@ import com.gookjiii.chessapi.entities.*;
 import com.gookjiii.chessapi.listener.CheckListener;
 import com.gookjiii.chessapi.listener.CheckmateListener;
 
+import java.awt.*;
 import java.util.*;
+import java.util.List;
 
 public class Board {
     private HashMap<Integer, TreeSet<Integer>> hashColumn = new HashMap<>();
@@ -91,6 +93,24 @@ public class Board {
         board.clear();
         whiteToMove = true;
         this.megaPawnCells = megaPawnCells;
+    }
+
+    public void add(Spot spot) {
+        board.add(spot);
+        newBoard.put(new Coordinate(spot.getX(), spot.getY()), spot);
+        addElement(hashColumn, spot.getY(), spot.getX());
+        addElement(hashRow, spot.getX(), spot.getY());
+        addElement(hashDiagonalPositive, spot.getX(), spot.getX() - spot.getY());
+        addElement(hashDiagonalNegative, spot.getX(), spot.getX() + spot.getY());
+    }
+
+    public void remove(Spot spot) {
+        board.remove(spot);
+        newBoard.remove(new Coordinate(spot.getX(), spot.getY()));
+        deleteElement(hashColumn, spot.getY(), spot.getX());
+        deleteElement(hashRow, spot.getX(), spot.getY());
+        deleteElement(hashDiagonalPositive, spot.getX(), spot.getX() - spot.getY());
+        deleteElement(hashDiagonalNegative, spot.getX(), spot.getX() + spot.getY());
     }
 
     public void putPiece(ChessPiece piece, int x, int y, boolean isWhite) throws Exception {
@@ -209,6 +229,7 @@ public class Board {
                 else kingB = (King) end.getPiece();
             }
             System.out.printf("Move %s from [%d,%d] to [%d,%d]\n", end.getPiece(), begin.getX(), begin.getY(), end.getX(), end.getY());
+            whiteToMove = !whiteToMove;
             return true;
         }
         return false;

@@ -14,11 +14,17 @@ public class Knight extends ChessPiece {
 
 	 @Override public boolean canMove (Board board, Spot start, Spot end) {
 		 try {
+			 boolean thisMoveRemoveCheck = false;
 			 if (checkKingInCheck && board.getKing(isWhite()) != null && board.getKing(isWhite()).inCheck(board)) {
-				 throw new Exception("Cannot move while in check.");
+				 Spot tempSpot = end;
+				 board.remove(end);
+				 if (board.getKing(isWhite()).inCheck(board))
+					 throw new Exception("Cannot move while in check.");
+				 board.add(tempSpot);
+				 thisMoveRemoveCheck = true;
 			 }
 
-			 if (checkKingInCheck) {
+			 if (checkKingInCheck && !thisMoveRemoveCheck) {
 
 				 if (end.getPiece() == null)
 					 board.addMove(end);

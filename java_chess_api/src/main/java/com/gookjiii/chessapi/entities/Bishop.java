@@ -13,16 +13,22 @@ public class Bishop extends ChessPiece {
     @Override
     public boolean canMove(Board board, Spot start, Spot end) throws Exception {
         try {
+            boolean thisMoveRemoveCheck = false;
             if (end.getPiece() != null) {
                 if (end.getPiece().isWhite() == this.isWhite()) {
                     // can't kill piece of same color
                     throw new Exception("Cannot move to a cell with a piece of the same color.");
                 }
             } else if (checkKingInCheck && board.getKing(isWhite()) != null && board.getKing(isWhite()).inCheck(board)) {
-                throw new Exception("Cannot move while in check.");
+                Spot tempSpot = end;
+                board.remove(end);
+                if (board.getKing(isWhite()).inCheck(board))
+                    throw new Exception("Cannot move while in check.");
+                board.add(tempSpot);
+                thisMoveRemoveCheck = true;
             }
 
-            if (checkKingInCheck) {
+            if (checkKingInCheck && !thisMoveRemoveCheck) {
 
                 if (end.getPiece() == null)
                     board.addMove(end);
